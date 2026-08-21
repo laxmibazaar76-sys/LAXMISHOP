@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LAXMISHOP — Online Shopping</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f7f7f7;color:#222}
+header{background:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 10px #0001}
+.top{padding:7px 5%;font-size:13px;border-bottom:1px solid #eee;display:flex;justify-content:space-between}
+.bar{padding:15px 5%;display:flex;gap:18px;align-items:center}.logo{font-size:28px;font-weight:900}.logo span{color:#ff3f6c}
+.search{display:flex;flex:1;max-width:650px}.search input{flex:1;padding:12px;border:1px solid #ddd}.search button,.btn{background:#ff3f6c;color:white;border:0;padding:12px 18px;font-weight:bold;border-radius:6px}
+.actions button,.nav button{border:0;background:none;padding:8px;cursor:pointer}.nav{padding:10px 5%;border-top:1px solid #eee;display:flex;gap:25px;font-weight:bold}
+main{max-width:1400px;margin:auto;padding:18px 5%}.hero{background:linear-gradient(120deg,#171326,#5b1646);color:#fff;border-radius:18px;padding:45px;margin-bottom:25px}.hero h1{font-size:48px;margin:8px 0}.hero p{font-size:18px}
+.cats,.products{display:grid;gap:14px}.cats{grid-template-columns:repeat(6,1fr)}.products{grid-template-columns:repeat(4,1fr)}
+.cat,.card,.service{background:white;border:1px solid #eee;border-radius:12px}.cat{padding:20px;font-weight:bold}.cat small{display:block;color:#777;margin-top:8px}
+.products img{width:100%;height:230px;object-fit:cover;border-radius:12px 12px 0 0}.body{padding:13px}.price{font-size:18px;font-weight:900}.old{text-decoration:line-through;color:#aaa;font-size:12px}.rating{color:#b47700;font-size:13px;margin:8px 0}.body .btn{width:100%}
+.services{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}.service{padding:18px}.muted{color:#777;font-size:13px}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:20;align-items:center;justify-content:center}.box{background:#fff;width:min(850px,94%);max-height:90vh;overflow:auto;border-radius:15px;padding:24px}.close{float:right;border:0;background:none;font-size:25px}.field{width:100%;padding:11px;border:1px solid #ddd;border-radius:6px;margin:5px 0 10px}.line{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #eee}.line img{width:65px;height:65px;object-fit:cover;border-radius:8px}.grow{flex:1}.total{display:flex;justify-content:space-between;font-weight:bold;font-size:20px;padding:15px 0}
+@media(max-width:800px){.products{grid-template-columns:repeat(2,1fr)}.cats{grid-template-columns:repeat(3,1fr)}.services{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:35px}}
+@media(max-width:550px){.top{display:none}.bar{padding:11px 4%;gap:8px}.logo{font-size:22px}.actions .txt{display:none}.nav{overflow:auto;padding:8px 4%}.hero{padding:28px}.products{grid-template-columns:repeat(2,1fr)}.cats{grid-template-columns:repeat(2,1fr)}.services{grid-template-columns:1fr}.products img{height:180px}}
+</style></head>
+<body>
+<header>
+<div class="top"><span>🚚 Budget Shopping</span><span>💬 WhatsApp Support</span><span>🔒 Secure Checkout</span></div>
+<div class="bar"><div class="logo">LAXMI<span>SHOP</span></div><div class="search"><input id="q" placeholder="Search products..." oninput="render()"><button>⌕</button></div><div class="actions"><button onclick="profile()">👤 <span class="txt">Profile</span></button><button onclick="cart()">🛒 <span id="cc">0</span></button></div></div>
+<div class="nav"><button onclick="scrollTo(0,0)">Home</button><button onclick="document.getElementById('cats').scrollIntoView()">Categories</button><button onclick="document.getElementById('shop').scrollIntoView()">Shop</button><button onclick="cart()">Cart</button><button onclick="window.open('https://www.instagram.com/laxmishop247','_blank')">Instagram</button><button onclick="whatsapp()">WhatsApp</button></div>
+</header>
+<main>
+<section class="hero"><h1>LAXMISHOP</h1><p>Ladies & Gents Fashion • Beauty • Accessories</p><button class="btn" onclick="document.getElementById('shop').scrollIntoView()">Shop Now</button></section>
+<div class="services"><div class="service">🚚 <b>Budget Shopping</b><div class="muted">Affordable products</div></div><div class="service">💳 <b>UPI / COD</b><div class="muted">Easy checkout</div></div><div class="service">↩️ <b>Easy Support</b><div class="muted">WhatsApp assistance</div></div><div class="service">📦 <b>Order Tracking</b><div class="muted">Order updates</div></div></div>
+<h2 id="cats">Categories</h2><div class="cats"><div class="cat">👩 Saree & Dresses<small>Ladies fashion</small></div><div class="cat">💄 Makeup<small>Beauty</small></div><div class="cat">💍 Jewellery<small>Accessories</small></div><div class="cat">👨 Men's Fashion<small>Shirts, T-shirts</small></div><div class="cat">👟 Footwear<small>Men & Women</small></div><div class="cat">⌚ Watches & Glasses<small>Accessories</small></div></div>
+<h2 id="shop">Featured Products</h2><div class="products" id="products"></div>
+</main>
+<div class="modal" id="modal"><div class="box"><button class="close" onclick="hide()">×</button><div id="mc"></div></div></div>
+<script>
+const WA="919630115052";
+const products=[
+{id:1,n:"Elegant Saree",p:899,img:"https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=700&q=85"},
+{id:2,n:"Ladies Makeup Set",p:699,img:"https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=700&q=85"},
+{id:3,n:"Fashion Handbag",p:799,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=85"},
+{id:4,n:"Men Casual Shirt",p:749,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=700&q=85"},
+{id:5,n:"Men Sneakers",p:1199,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=85"},
+{id:6,n:"Ladies Watch",p:999,img:"https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=700&q=85"},
+{id:7,n:"Sunglasses",p:499,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=700&q=85"},
+{id:8,n:"Men Bracelet",p:399,img:"https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=700&q=85"}];
+let c=[];
+function money(n){return "₹"+n.toLocaleString("en-IN")}
+function render(){let q=document.getElementById("q").value.toLowerCase();document.getElementById("products").innerHTML=products.filter(x=>x.n.toLowerCase().includes(q)).map(x=>`<div class="card"><img src="${x.img}"><div class="body"><b>${x.n}</b><p class="price">${money(x.p)}</p><div class="rating">★ 4.5</div><button class="btn" onclick="add(${x.id})">Add to Cart</button></div></div>`).join("")}
+function add(id){let x=c.find(a=>a.id===id);x?x.q++:c.push({id,q:1});upd();cart()}
+function upd(){document.getElementById("cc").textContent=c.reduce((s,x)=>s+x.q,0)}
+function cart(){show(`<h2>🛒 Cart</h2>${c.length?c.map(x=>{let p=products.find(a=>a.id===x.id);return `<div class="line"><img src="${p.img}"><div class="grow"><b>${p.n}</b><div>${money(p.p)} × ${x.q}</div></div></div>`}).join("")+`<div class="total"><span>Total</span><span>${money(c.reduce((s,x)=>s+products.find(a=>a.id===x.id).p*x.q,0))}</span></div><button class="btn" style="width:100%" onclick="checkout()">Checkout</button>`:"<p>Cart खाली है.</p>"}`)}
+function checkout(){show(`<h2>📦 Checkout</h2><input class="field" id="name" placeholder="Full Name"><input class="field" id="phone" placeholder="Mobile Number"><textarea class="field" id="addr" placeholder="Complete Address"></textarea><p><label><input type="radio" name="pay" checked> UPI</label> &nbsp; <label><input type="radio" name="pay"> COD</label></p><button class="btn" onclick="place()">Place Order on WhatsApp</button>`)}
+function place(){let n=name.value,ph=phone.value,a=addr.value;if(!n||!ph||!a)return alert("Name, mobile और address भरें.");let t="Namaste LAXMISHOP!%0AOrder request:%0A"+c.map(x=>products.find(p=>p.id===x.id).n+" x "+x.q).join("%0A")+"%0AName: "+encodeURIComponent(n)+"%0AMobile: "+encodeURIComponent(ph)+"%0AAddress: "+encodeURIComponent(a);window.open("https://wa.me/"+WA+"?text="+t,"_blank");hide()}
+function profile(){show("<h2>👤 Profile</h2><input class='field' placeholder='Full Name'><input class='field' placeholder='Mobile Number'><input class='field' placeholder='Address'><button class='btn' onclick='alert("Profile saved")'>Save</button>")}
+function whatsapp(){window.open("https://wa.me/"+WA,"_blank")}
+function show(x){document.getElementById("mc").innerHTML=x;document.getElementById("modal").style.display="flex"}function hide(){document.getElementById("modal").style.display="none"}
+render();upd();
+</script>
+</body></html>
